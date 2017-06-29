@@ -34,6 +34,7 @@ void initConsole();
 
 // 文字を表示（座標：x,y  色：color）
 void coordPrint(int y, int x, wchar_t* str, int color);
+void coordPrint(int y, int x, wchar_t ch, int color);
 // 数字を表示（座標：x,y  色：color）
 void coordPrint(int y, int x, int num, int color);
 

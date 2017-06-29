@@ -24,15 +24,28 @@ void initConsole() {
 }
 
 void coordPrint(int y, int x, wchar_t* str, int color) {
-	COORD coord = {x,y};                      // 座標を設定
+	COORD coord = {2*x,y};                    // 座標を設定
 	SetConsoleCursorPosition(hConsole,coord); // 座標を更新
 	SetConsoleTextAttribute (hConsole,color); // 色を設定
-	wprintf(L"%s",str);                     // 文字を出力
+	wprintf(L"%s",str);                       // 文字を出力
+	SetConsoleCursorPosition(hConsole,{0,0}); // 座標をリセット
+	SetConsoleTextAttribute (hConsole,0);     // 色をリセット
+}
+
+void coordPrint(int y, int x, wchar_t ch, int color) {
+	COORD coord = {2*x,y};                    // 座標を設定
+	SetConsoleCursorPosition(hConsole,coord); // 座標を更新
+	SetConsoleTextAttribute (hConsole,color); // 色を設定
+	wprintf(L"%c",ch);                        // 文字を出力
+	SetConsoleCursorPosition(hConsole,{0,0}); // 座標をリセット
+	SetConsoleTextAttribute (hConsole,0);     // 色をリセット
 }
 
 void coordPrint(int y, int x, int num, int color) {
-	COORD coord = {x,y};                      // 座標を設定
+	COORD coord = {2*x,y};                    // 座標を設定
 	SetConsoleCursorPosition(hConsole,coord); // 座標を更新
 	SetConsoleTextAttribute (hConsole,color); // 色を設定
-	wprintf(L"%d",num);                     // 数字を出力
+	wprintf(L"%d",num);                       // 数字を出力
+	SetConsoleCursorPosition(hConsole,{0,0}); // 座標をリセット
+	SetConsoleTextAttribute (hConsole,0);     // 色をリセット
 }
