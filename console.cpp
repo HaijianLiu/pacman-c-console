@@ -6,14 +6,14 @@
 
 #include "console.h"
 
-HANDLE                       hConsole;
-CONSOLE_CURSOR_INFO          consoleCursorInfo;
-CONSOLE_SCREEN_BUFFER_INFO   consoleScreenInfo;
+HANDLE hConsole;
+CONSOLE_SCREEN_BUFFER_INFO consoleScreenInfo;
 
-void InitConsole() {
+void initConsole() {
 	// コンソールhandleを取得
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	// cursorを表示しない
+	CONSOLE_CURSOR_INFO consoleCursorInfo;
 	GetConsoleCursorInfo(hConsole,&consoleCursorInfo);
 	consoleCursorInfo.bVisible = false;
 	SetConsoleCursorInfo(hConsole,&consoleCursorInfo);
@@ -23,16 +23,16 @@ void InitConsole() {
 	setlocale(LC_CTYPE,"");
 }
 
-void CoordPrint(int y, int x, wchar_t* str, int color) {
+void coordPrint(int y, int x, wchar_t* str, int color) {
 	COORD coord = {x,y};                      // 座標を設定
 	SetConsoleCursorPosition(hConsole,coord); // 座標を更新
 	SetConsoleTextAttribute (hConsole,color); // 色を設定
-	wprintf(L"%s\n",str);                     // 文字を出力
+	wprintf(L"%s",str);                     // 文字を出力
 }
 
-void CoordPrint(int y, int x, int num, int color) {
+void coordPrint(int y, int x, int num, int color) {
 	COORD coord = {x,y};                      // 座標を設定
 	SetConsoleCursorPosition(hConsole,coord); // 座標を更新
 	SetConsoleTextAttribute (hConsole,color); // 色を設定
-	wprintf(L"%d\n",num);                     // 数字を出力
+	wprintf(L"%d",num);                     // 数字を出力
 }

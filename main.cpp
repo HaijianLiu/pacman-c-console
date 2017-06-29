@@ -5,18 +5,19 @@
 #include <windows.h>
 
 #include "console.h"
+#include "level.h"
+
 
 int main(void) {
 
-	InitConsole();
+	initConsole();
 
-	wchar_t str[24] = L"┏━┏━━┏━━┏━━┏━━123";
+	wchar_t level[MAP_SIZE_X * MAP_SIZE_Y] = {};
+	getLevel(level);
 
-	CoordPrint(1,10,str,BLUE);
-
-	int i = 123;
-
-	CoordPrint(1,10,i,RED);
+	for (int i = 0; i < MAP_SIZE_Y; i++) {
+		coordPrint(i, 0, &level[i * MAP_SIZE_X], BLUE);
+	}
 
 	getchar();
 	return 0;
