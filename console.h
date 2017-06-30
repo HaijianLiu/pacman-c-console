@@ -8,6 +8,8 @@
 #define YELLOW (14)
 #define RED (12)
 
+#define SCREEN_LEFT (6)
+
 /*
 Color         Background Foreground
 ---------------------------------------------

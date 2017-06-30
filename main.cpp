@@ -1,22 +1,31 @@
 ﻿
 #include <stdio.h>
-#include <locale.h>
-#include <wchar.h>
 #include <windows.h>
+#include <wchar.h>
 
-#include "console.h"
-#include "level.h"
-
+#include "main.h"
 
 int main(void) {
 
 	initConsole();
 
 	wchar_t level[MAP_SIZE_X * MAP_SIZE_Y] = {};
-	getLevel(level);
+	initLevel(level);
 
-	// coordPrint(1,20,1,RED);
+	// GAMESTATUS* gameStatus = initGameStatus();
+	PLAYER player = initPlayer();
+	// ENEMY enemy[4] = initEnemy();
+	while (1) {
+		updatePlayer(&player,level);
+		Sleep(180);
+	}
 
+	// do {
+	// 	updatePlayer(player,enemy,level,gameStatus);
+	// 	updateEnemy(player,enemy,level,gameStatus);
+	// 	updateGameStatus(gameStatus);
+	//
+	// } while(gameStatus->gameOver == false);
 
 	getchar();
 	return 0;
