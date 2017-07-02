@@ -1,21 +1,29 @@
 ﻿
 #include <stdio.h>
 #include <windows.h>
-#include <wchar.h>
 
 #include "main.h"
 
 int main(void) {
 
+	// Set console status
 	initConsole();
 
+	// Init GameStatus
 	GameStatus gameStatus = initGameStatus();
 
+	// Init Map
 	wchar_t level[MAP_SIZE_X * MAP_SIZE_Y] = {};
 	initLevel(level,&gameStatus);
 
+	// Init Player
 	Player player = initPlayer();
-	// ENEMY enemy[4] = initEnemy();
+	
+	// Init Enemy Group
+	Enemy enemy[ENEMY_GROUP];
+	for (int i = 0; i < ENEMY_GROUP; i++) {
+		 enemy[i] = initEnemy(i);
+	}
 
 	while (1) {
 		updatePlayer(&player,level,&gameStatus);

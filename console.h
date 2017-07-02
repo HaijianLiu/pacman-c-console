@@ -6,6 +6,9 @@
 #define YELLOW (14)
 #define RED    (12)
 #define WHITE  (7)
+#define PINK  (13)
+#define CYAN  (11)
+#define GREEN  (10)
 
 
 /*

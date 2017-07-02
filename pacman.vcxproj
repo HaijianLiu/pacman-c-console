@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="console.cpp" />
     <ClCompile Include="controller.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="console.h" />
     <ClInclude Include="controller.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="player.h" />
