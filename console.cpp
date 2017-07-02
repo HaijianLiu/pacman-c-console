@@ -1,5 +1,7 @@
 ﻿
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <locale.h>
 #include <wchar.h>
 #include <windows.h>
@@ -10,6 +12,7 @@ HANDLE hConsole;
 CONSOLE_SCREEN_BUFFER_INFO consoleScreenInfo;
 
 void initConsole() {
+	srand((unsigned)time(NULL));
 	// コンソールhandleを取得
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	// cursorを表示しない

@@ -3,6 +3,7 @@
 #define _ENEMY_H_
 
 #include "level.h"
+#include "player.h"
 
 typedef struct {
 	int id, x, y, move, color;
@@ -12,8 +13,10 @@ typedef struct {
 
 Enemy initEnemy(int id);
 
-// void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus);
-//
-// void updatePlayer(Player* player, wchar_t* level, GameStatus* gameStatus);
+int getAI(Enemy* enemy, wchar_t* pathMap);
+
+void moveEnemy(Enemy* enemy, wchar_t* level);
+
+void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap, GameStatus* gameStatus);
 
 #endif

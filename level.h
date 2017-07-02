@@ -26,6 +26,8 @@ void initItem(wchar_t* level);
 
 void initLevel(wchar_t* map, GameStatus* gameStatus);
 
+void initPathMap(wchar_t* pathMap);
+
 void updateScore(GameStatus* gameStatus);
 
 

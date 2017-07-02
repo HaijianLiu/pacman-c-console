@@ -39,7 +39,7 @@ void initLevel(wchar_t* level, GameStatus* gameStatus) {
 		L"┃・・・・・┃・・・┃・・・┃・・・・・┃",
 		L"┗━━━┓・┣━━　┃　━━┫・┏━━━┛",
 		L"　　　　┃・┃　　　　　　　┃・┃　　　　",
-		L"━━━━┛・┃　┏━　━┓　┃・┗━━━━",
+		L"━━━━┛・┃　┏━━━┓　┃・┗━━━━",
 		L"　　　　　・　　┃　　　┃　　・　　　　　",
 		L"━━━━┓・┃　┗━━━┛　┃・┏━━━━",
 		L"　　　　┃・┃　　　　　　　┃・┃　　　　",
@@ -60,13 +60,50 @@ void initLevel(wchar_t* level, GameStatus* gameStatus) {
 		coordPrint(i,SCREEN_LEFT,&level[i * MAP_SIZE_X],BLUE);
 	}
 
+	initItem(level);
+	coordPrint(11,10 + SCREEN_LEFT,L"━",WHITE);
+
 	// "HIGH SCORE"
 	coordPrint(SCORE_COORD_Y,SCORE_COORD_X,L"HIGH SCORE",RED);
 	// "1UP"
 	coordPrint(SCORE_COORD_Y+3,SCORE_COORD_X,L"1UP",RED);
 	updateScore(gameStatus);
 
-	initItem(level);
+}
+
+void initPathMap(wchar_t* pathMap) {
+
+	wchar_t map[MAP_SIZE_Y][MAP_SIZE_X] = {
+		L"┏━━━━━━━━━┳━━━━━━━━━┓",
+		L"┃■　　　■　　　■┃■　　　■　　　■┃",
+		L"┃　┏━┓　┏━┓　┃　┏━┓　┏━┓　┃",
+		L"┃　┃　┃　┃　┃　┃　┃　┃　┃　┃　┃",
+		L"┃　┗━┛　┗━┛　┃　┗━┛　┗━┛　┃",
+		L"┃■　　　■　■　■　■　■　■　　　■┃",
+		L"┃　┏━┓　┃　┏━━━┓　┃　┏━┓　┃",
+		L"┃　┗━┛　┃　┗━┳━┛　┃　┗━┛　┃",
+		L"┃■　　　■┃■　■┃■　■┃■　　　■┃",
+		L"┗━━━┓　┣━━　┃　━━┫　┏━━━┛",
+		L"　　　　┃　┃■　■■■　■┃　┃　　　　",
+		L"━━━━┛　┃　┏━━━┓　┃　┗━━━━",
+		L"　　　　　■　■┃　　　┃■　■　　　　　",
+		L"━━━━┓　┃　┗━━━┛　┃　┏━━━━",
+		L"　　　　┃　┃■　　　　　■┃　┃　　　　",
+		L"┏━━━┛　┃　━━┳━━　┃　┗━━━┓",
+		L"┃■　　　■　■　■┃■　■　■　　　■┃",
+		L"┃　━━┓　━━━　┃　━━━　┏━━　┃",
+		L"┃■　■┃■　■　■　■　■　■┃■　■┃",
+		L"┣━┓　┃　┃　┏━━━┓　┃　┃　┏━┫",
+		L"┣━┛　┃　┃　┗━┳━┛　┃　┃　┗━┫",
+		L"┃■　■　■┃■　■┃■　■┃■　■　■┃",
+		L"┃　━━━━┻━━　┃　━━┻━━━━　┃",
+		L"┃■　　　　　　　■　■　　　　　　　■┃",
+		L"┗━━━━━━━━━━━━━━━━━━━┛",
+	};
+
+	for (int i = 0; i < MAP_SIZE_Y; i++) {
+		wcsncpy_s(&pathMap[i*MAP_SIZE_X],MAP_SIZE_X,&map[i][0],MAP_SIZE_X);
+	}
 }
 
 void updateScore(GameStatus* gameStatus) {

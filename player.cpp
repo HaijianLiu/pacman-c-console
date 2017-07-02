@@ -75,6 +75,7 @@ void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 		{
 			player->x = x;
 			player->y = y;
+			player->move = 0;
 		}
 	}
 }

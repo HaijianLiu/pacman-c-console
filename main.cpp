@@ -15,10 +15,15 @@ int main(void) {
 	// Init Map
 	wchar_t level[MAP_SIZE_X * MAP_SIZE_Y] = {};
 	initLevel(level,&gameStatus);
+	// Init Path Map
+	wchar_t pathMap[MAP_SIZE_X * MAP_SIZE_Y] = {};
+	initPathMap(pathMap);
 
 	// Init Player
 	Player player = initPlayer();
-	
+
+
+	// Enemy enemy = initEnemy(0);
 	// Init Enemy Group
 	Enemy enemy[ENEMY_GROUP];
 	for (int i = 0; i < ENEMY_GROUP; i++) {
@@ -27,6 +32,7 @@ int main(void) {
 
 	while (1) {
 		updatePlayer(&player,level,&gameStatus);
+		updateEnemy(&player,enemy,level,pathMap,&gameStatus);
 		Sleep(NORMAL);
 	}
 
