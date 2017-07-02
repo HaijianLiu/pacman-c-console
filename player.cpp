@@ -57,7 +57,7 @@ void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 			*(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) = L'　';
 			// Update status
 			gameStatus->score += SCORE_DOT_S;
-			updateGameStatus(gameStatus);
+			updateScore(gameStatus);
 		} else
 
 		if (*(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) == L'◎') {
@@ -69,7 +69,7 @@ void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 			*(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) = L'　';
 			// Update status
 			gameStatus->score += SCORE_DOT_B;
-			updateGameStatus(gameStatus);
+			updateScore(gameStatus);
 		} else
 
 		{

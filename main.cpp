@@ -9,15 +9,17 @@ int main(void) {
 
 	initConsole();
 
-	wchar_t level[MAP_SIZE_X * MAP_SIZE_Y] = {};
-	initLevel(level);
-
 	GameStatus gameStatus = initGameStatus();
+
+	wchar_t level[MAP_SIZE_X * MAP_SIZE_Y] = {};
+	initLevel(level,&gameStatus);
+
 	Player player = initPlayer();
 	// ENEMY enemy[4] = initEnemy();
+
 	while (1) {
 		updatePlayer(&player,level,&gameStatus);
-		Sleep(SLEEP_TIME);
+		Sleep(NORMAL);
 	}
 
 	// do {

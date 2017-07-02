@@ -20,9 +20,9 @@ GameStatus initGameStatus();
 
 void initItem(wchar_t* level);
 
-void initLevel(wchar_t* map);
+void initLevel(wchar_t* map, GameStatus* gameStatus);
 
-void updateGameStatus(GameStatus* gameStatus);
+void updateScore(GameStatus* gameStatus);
 
 
 #endif
