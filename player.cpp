@@ -35,9 +35,15 @@ void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 				break;
 			case KEY_LEFT:
 				player->x -= 1;
+				if (player->x <= SCREEN_LEFT) {
+					player->x = SCREEN_LEFT + MAP_SIZE_X - 2;
+				}
 				break;
 			case KEY_RIGHT:
 				player->x += 1;
+				if (player->x >= SCREEN_LEFT + MAP_SIZE_X - 1) {
+					player->x = SCREEN_LEFT+1;
+				}
 				break;
 		}
 

@@ -97,9 +97,15 @@ void moveEnemy(Enemy* enemy, wchar_t* level) {
 				break;
 			case LEFT:
 				enemy->x -= 1;
+				if (enemy->x <= SCREEN_LEFT) {
+					enemy->x = SCREEN_LEFT + MAP_SIZE_X - 2;
+				}
 				break;
 			case RIGHT:
 				enemy->x += 1;
+				if (enemy->x >= SCREEN_LEFT + MAP_SIZE_X - 1) {
+					enemy->x = SCREEN_LEFT+1;
+				}
 				break;
 		}
 

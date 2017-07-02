@@ -22,8 +22,6 @@ int main(void) {
 	// Init Player
 	Player player = initPlayer();
 
-
-	// Enemy enemy = initEnemy(0);
 	// Init Enemy Group
 	Enemy enemy[ENEMY_GROUP];
 	for (int i = 0; i < ENEMY_GROUP; i++) {
