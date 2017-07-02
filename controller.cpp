@@ -1,7 +1,6 @@
 ﻿
 #include <stdio.h>
 #include <conio.h>
-// #include <Windows.h>
 #include "controller.h"
 
 int getController(int move) {

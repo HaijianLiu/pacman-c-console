@@ -1,14 +1,12 @@
 ﻿
-#pragma once
-
 #ifndef _CONSOLE_H_
 #define _CONSOLE_H_
 
-#define BLUE (9)
+#define BLUE   (9)
 #define YELLOW (14)
-#define RED (12)
+#define RED    (12)
+#define WHITE  (7)
 
-#define SCREEN_LEFT (6)
 
 /*
 Color         Background Foreground

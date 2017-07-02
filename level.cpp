@@ -2,9 +2,19 @@
 #include <stdio.h>
 #include <wchar.h>
 
-#include "console.h"
 #include "level.h"
+#include "console.h"
 
+GameStatus initGameStatus() {
+	GameStatus gameStatus;
+	gameStatus.score = 0;
+	// "HIGH SCORE"
+	coordPrint(SCORE_COORD_Y,SCORE_COORD_X,L"HIGH SCORE",RED);
+	// "1UP"
+	coordPrint(SCORE_COORD_Y+3,SCORE_COORD_X,L"1UP",RED);
+	updateGameStatus(&gameStatus);
+	return gameStatus;
+}
 
 void initItem(wchar_t* level) {
 	for (int i = 0; i < MAP_SIZE_Y; i++) {
@@ -55,4 +65,9 @@ void initLevel(wchar_t* level) {
 		coordPrint(i,SCREEN_LEFT,&level[i * MAP_SIZE_X],BLUE);
 	}
 	initItem(level);
+}
+
+void updateGameStatus(GameStatus* gameStatus) {
+	coordPrint(SCORE_COORD_Y+1,SCORE_COORD_X,gameStatus->score,WHITE);
+	coordPrint(SCORE_COORD_Y+4,SCORE_COORD_X,gameStatus->score,WHITE);
 }

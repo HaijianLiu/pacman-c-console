@@ -9,4 +9,6 @@
 // #include "gamestatus.h"
 // #include "controller.h"
 
+#define SLEEP_TIME (180)
+
 #endif

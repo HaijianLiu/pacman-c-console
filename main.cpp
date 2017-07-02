@@ -12,12 +12,12 @@ int main(void) {
 	wchar_t level[MAP_SIZE_X * MAP_SIZE_Y] = {};
 	initLevel(level);
 
-	// GAMESTATUS* gameStatus = initGameStatus();
-	PLAYER player = initPlayer();
+	GameStatus gameStatus = initGameStatus();
+	Player player = initPlayer();
 	// ENEMY enemy[4] = initEnemy();
 	while (1) {
-		updatePlayer(&player,level);
-		Sleep(180);
+		updatePlayer(&player,level,&gameStatus);
+		Sleep(SLEEP_TIME);
 	}
 
 	// do {

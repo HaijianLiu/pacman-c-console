@@ -2,13 +2,12 @@
 #include <stdio.h>
 #include <wchar.h>
 
+#include "player.h"
 #include "console.h"
 #include "controller.h"
-#include "player.h"
-#include "level.h"
 
-PLAYER initPlayer() {
-	PLAYER player;
+Player initPlayer() {
+	Player player;
 	player.x        = 10 + SCREEN_LEFT;
 	player.y        = 18;
 	player.move     = 0;
@@ -22,7 +21,7 @@ PLAYER initPlayer() {
 	return player;
 }
 
-void movePlayer(PLAYER* player, wchar_t* level) {
+void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 	player->move = getController(player->move);
 	if (player->move != 0) {
 		int x = player->x;
@@ -41,18 +40,45 @@ void movePlayer(PLAYER* player, wchar_t* level) {
 				player->x += 1;
 				break;
 		}
-		if (*(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) == L'◎' || *(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) == L'・' || *(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) == L'　') {
+
+		if (*(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) == L'　') {
 			coordPrint(y,x,L'　',0);
 			player->counter = player->counter % 2;
 			coordPrint(player->y,player->x,player->maker[player->counter],player->color);
 			player->counter ++;
-		} else {
+		} else
+
+		if (*(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) == L'・') {
+			coordPrint(y,x,L'　',0);
+			player->counter = player->counter % 2;
+			coordPrint(player->y,player->x,player->maker[player->counter],player->color);
+			player->counter ++;
+			// Update map
+			*(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) = L'　';
+			// Update status
+			gameStatus->score += SCORE_DOT_S;
+			updateGameStatus(gameStatus);
+		} else
+
+		if (*(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) == L'◎') {
+			coordPrint(y,x,L'　',0);
+			player->counter = player->counter % 2;
+			coordPrint(player->y,player->x,player->maker[player->counter],player->color);
+			player->counter ++;
+			// Update map
+			*(level + player->y*MAP_SIZE_X + player->x - SCREEN_LEFT) = L'　';
+			// Update status
+			gameStatus->score += SCORE_DOT_B;
+			updateGameStatus(gameStatus);
+		} else
+
+		{
 			player->x = x;
 			player->y = y;
 		}
 	}
 }
 
-void updatePlayer(PLAYER* player, wchar_t* level) {
-	movePlayer(player,level);
+void updatePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
+	movePlayer(player,level,gameStatus);
 }
