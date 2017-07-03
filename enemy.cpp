@@ -46,8 +46,9 @@ Enemy initEnemy(int id) {
 	return enemy;
 }
 
-int getAI(Enemy* enemy, wchar_t* pathMap) {
+int getAI(Player* player, Enemy* enemy, wchar_t* pathMap) {
 
+	int counter = 4;
 	int m = enemy->move;
 
 	while (1) {
@@ -56,30 +57,79 @@ int getAI(Enemy* enemy, wchar_t* pathMap) {
 
 		switch (enemy->move) {
 			case UP:
-				if (m != DOWN) {
-					if (*(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
+				if (*(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != DOWN) {
 						return UP;
 					}
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+						if (counter > 0) {
+							if (player->y < enemy->y) {
+								return UP;
+							}
+						} else {
+							if (player->y <= enemy->y) {
+								return UP;
+							}
+						}
+					}
 				}
+				break;
 			case DOWN:
-				if (m != UP) {
-					if (*(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
+				if (*(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != UP) {
 						return DOWN;
 					}
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+						if (counter > 0) {
+							if (player->y > enemy->y) {
+								return DOWN;
+							}
+						} else {
+							if (player->y >= enemy->y) {
+								return DOWN;
+							}
+						}
+					}
 				}
+				break;
 			case LEFT:
-				if (m != RIGHT) {
-					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'　') {
+				if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'　') {
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != RIGHT) {
 						return LEFT;
 					}
-				}
-			case RIGHT:
-				if (m != LEFT) {
-					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'　') {
-						return RIGHT;
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+						if (counter > 0) {
+							if (player->x < enemy->x) {
+								return LEFT;
+							}
+						} else {
+							if (player->x <= enemy->x) {
+								return LEFT;
+							}
+						}
 					}
 				}
+				break;
+			case RIGHT:
+				if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'　') {
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != LEFT) {
+						return RIGHT;
+					}
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+						if (counter > 0) {
+							if (player->x > enemy->x) {
+								return RIGHT;
+							}
+						} else {
+							if (player->x >= enemy->x) {
+								return RIGHT;
+							}
+						}
+					}
+				}
+				break;
 		}
+		counter --;
 	}
 }
 
@@ -115,8 +165,8 @@ void moveEnemy(Enemy* enemy, wchar_t* level) {
 }
 
 void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap, GameStatus* gameStatus) {
-	if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
-		enemy->move = getAI(enemy,pathMap);
+	if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□') {
+		enemy->move = getAI(player,enemy,pathMap);
 	}
 	moveEnemy(enemy,level);
 }

@@ -13,7 +13,7 @@ typedef struct {
 
 Enemy initEnemy(int id);
 
-int getAI(Enemy* enemy, wchar_t* pathMap);
+int getAI(Player* player, Enemy* enemy, wchar_t* pathMap);
 
 void moveEnemy(Enemy* enemy, wchar_t* level);
 
