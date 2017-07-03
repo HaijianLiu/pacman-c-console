@@ -8,6 +8,9 @@
 GameStatus initGameStatus() {
 	GameStatus gameStatus;
 	gameStatus.score = 0;
+	gameStatus.dots = 0;
+	gameStatus.enemyDelay = 10;
+	gameStatus.hardness = 0;
 	return gameStatus;
 }
 

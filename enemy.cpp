@@ -46,7 +46,7 @@ Enemy initEnemy(int id) {
 	return enemy;
 }
 
-int getAI(Player* player, Enemy* enemy, wchar_t* pathMap) {
+int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus) {
 
 	int counter = 4;
 	int m = enemy->move;
@@ -58,17 +58,24 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap) {
 		switch (enemy->move) {
 			case UP:
 				if (*(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
-					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != DOWN) {
-						return UP;
+					if (enemy->id > gameStatus->hardness) {
+						if ( m != DOWN) {
+							return UP;
+						}
 					}
-					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
-						if (counter > 0) {
-							if (player->y < enemy->y) {
-								return UP;
-							}
-						} else {
-							if (player->y <= enemy->y) {
-								return UP;
+					else {
+						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != DOWN) {
+							return UP;
+						}
+						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+							if (counter > 0) {
+								if (player->y < enemy->y) {
+									return UP;
+								}
+							} else {
+								if (player->y <= enemy->y) {
+									return UP;
+								}
 							}
 						}
 					}
@@ -76,17 +83,24 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap) {
 				break;
 			case DOWN:
 				if (*(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
-					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != UP) {
-						return DOWN;
+					if (enemy->id > gameStatus->hardness) {
+						if (m != UP) {
+							return DOWN;
+						}
 					}
-					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
-						if (counter > 0) {
-							if (player->y > enemy->y) {
-								return DOWN;
-							}
-						} else {
-							if (player->y >= enemy->y) {
-								return DOWN;
+					else {
+						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != UP) {
+							return DOWN;
+						}
+						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+							if (counter > 0) {
+								if (player->y > enemy->y) {
+									return DOWN;
+								}
+							} else {
+								if (player->y >= enemy->y) {
+									return DOWN;
+								}
 							}
 						}
 					}
@@ -94,17 +108,24 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap) {
 				break;
 			case LEFT:
 				if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'　') {
-					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != RIGHT) {
-						return LEFT;
+					if (enemy->id > gameStatus->hardness) {
+						if (m != RIGHT) {
+							return LEFT;
+						}
 					}
-					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
-						if (counter > 0) {
-							if (player->x < enemy->x) {
-								return LEFT;
-							}
-						} else {
-							if (player->x <= enemy->x) {
-								return LEFT;
+					else {
+						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != RIGHT) {
+							return LEFT;
+						}
+						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+							if (counter > 0) {
+								if (player->x < enemy->x) {
+									return LEFT;
+								}
+							} else {
+								if (player->x <= enemy->x) {
+									return LEFT;
+								}
 							}
 						}
 					}
@@ -112,17 +133,24 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap) {
 				break;
 			case RIGHT:
 				if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'　') {
-					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != LEFT) {
-						return RIGHT;
+					if (enemy->id > gameStatus->hardness) {
+						if (m != LEFT) {
+							return RIGHT;
+						}
 					}
-					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
-						if (counter > 0) {
-							if (player->x > enemy->x) {
-								return RIGHT;
-							}
-						} else {
-							if (player->x >= enemy->x) {
-								return RIGHT;
+					else {
+						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != LEFT) {
+							return RIGHT;
+						}
+						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+							if (counter > 0) {
+								if (player->x > enemy->x) {
+									return RIGHT;
+								}
+							} else {
+								if (player->x >= enemy->x) {
+									return RIGHT;
+								}
 							}
 						}
 					}
@@ -165,8 +193,18 @@ void moveEnemy(Enemy* enemy, wchar_t* level) {
 }
 
 void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap, GameStatus* gameStatus) {
-	if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□') {
-		enemy->move = getAI(player,enemy,pathMap);
+	// initEnemy
+	for (int i = 0; i < ENEMY_GROUP-1; i++) {
+		if (gameStatus->dots == gameStatus->enemyDelay*(i+1) && enemy->id == i+1) {
+			coordPrint(enemy->y,enemy->x,L"　",enemy->color);
+			enemy->x = 10 + SCREEN_LEFT;
+			enemy->y = 10;
+		}
 	}
+	// if Ai
+	if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□') {
+		enemy->move = getAI(player,enemy,pathMap,gameStatus);
+	}
+	// move enemy according behivaor
 	moveEnemy(enemy,level);
 }

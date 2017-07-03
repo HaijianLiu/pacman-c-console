@@ -29,8 +29,12 @@ int main(void) {
 	}
 
 	while (1) {
+
 		updatePlayer(&player,level,&gameStatus);
-		updateEnemy(&player,enemy,level,pathMap,&gameStatus);
+
+		for (int i = 0; i < ENEMY_GROUP; i++) {
+			updateEnemy(&player,enemy+i,level,pathMap,&gameStatus);
+		}
 		Sleep(NORMAL);
 	}
 
