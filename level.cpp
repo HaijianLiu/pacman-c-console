@@ -1,5 +1,6 @@
 ﻿
 #include <stdio.h>
+#include <windows.h>
 #include <wchar.h>
 
 #include "level.h"
@@ -8,11 +9,13 @@
 GameStatus initGameStatus() {
 	GameStatus gameStatus;
 	gameStatus.score = 0;
+	gameStatus.hiScore = 0;
 	gameStatus.dots = 0;
 	gameStatus.enemyDelay = 10;
 	gameStatus.hardness = 0;
 	gameStatus.sleepTime = 180;
 	gameStatus.life = 2;
+	gameStatus.stage = 1;
 	return gameStatus;
 }
 
@@ -73,7 +76,9 @@ void initLevel(wchar_t* level, GameStatus* gameStatus) {
 	// "1UP"
 	coordPrint(SCORE_COORD_Y+3,SCORE_COORD_X,L"1UP",RED);
 	updateScore(gameStatus);
-
+	for (int i = 0; i < gameStatus->life; i++) {
+		coordPrint(SCORE_COORD_Y+21-i,SCORE_COORD_X+1,L'●',YELLOW);
+	}
 }
 
 void initPathMap(wchar_t* pathMap) {
@@ -112,6 +117,20 @@ void initPathMap(wchar_t* pathMap) {
 }
 
 void updateScore(GameStatus* gameStatus) {
-	coordPrint(SCORE_COORD_Y+1,SCORE_COORD_X,gameStatus->score,WHITE);
+	coordPrint(SCORE_COORD_Y+1,SCORE_COORD_X,gameStatus->hiScore,WHITE);
 	coordPrint(SCORE_COORD_Y+4,SCORE_COORD_X,gameStatus->score,WHITE);
+}
+
+void drawGameOver() {
+	coordPrint(12,13,L"ＧＡＭＥ　ＯＶＥＲ",WHITE);
+}
+
+void drawStage(GameStatus* gameStatus) {
+	system("cls");
+	coordPrint(11,13,L"ＳＴＡＧＥ",WHITE);
+	coordPrint(11,20,gameStatus->stage,WHITE);
+	coordPrint(11,23,L'●',YELLOW);
+	coordPrint(11,25,L'Ｘ',WHITE);
+	coordPrint(11,27,gameStatus->life,WHITE);
+	Sleep(2000);
 }

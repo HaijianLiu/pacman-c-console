@@ -29,34 +29,47 @@ void updateMainTitle(GameStatus* gameStatus) {
 	wchar_t titleText[TITLE_SIZE_X * TITLE_SIZE_Y] = {};
 	initTitle(titleText);
 	updateTitle(titleText,gameStatus);
-
-	system("cls");
 }
 
 void updateMainGame(GameStatus* gameStatus) {
-	// Init Map
-	wchar_t level[MAP_SIZE_X * MAP_SIZE_Y] = {};
-	initLevel(level,gameStatus);
-	// Init Path Map
-	wchar_t pathMap[MAP_SIZE_X * MAP_SIZE_Y] = {};
-	initPathMap(pathMap);
 
-	// Init Player
-	Player player = initPlayer();
-	// Init Enemy Group
-	Enemy enemy[ENEMY_GROUP];
-	for (int i = 0; i < ENEMY_GROUP; i++) {
-		 enemy[i] = initEnemy(i);
-	}
+	while (gameStatus->life >= 0) {
 
-	while (player.alive) {
+		drawStage(gameStatus);
+		// Init Map
+		wchar_t level[MAP_SIZE_X * MAP_SIZE_Y] = {};
+		initLevel(level,gameStatus);
+		// Init Path Map
+		wchar_t pathMap[MAP_SIZE_X * MAP_SIZE_Y] = {};
+		initPathMap(pathMap);
 
-		updatePlayer(&player,level,gameStatus);
-
+		// Init Player
+		Player player = initPlayer();
+		// Init Enemy Group
+		Enemy enemy[ENEMY_GROUP];
 		for (int i = 0; i < ENEMY_GROUP; i++) {
-			updateEnemy(&player,enemy+i,level,pathMap,gameStatus);
+			 enemy[i] = initEnemy(i);
 		}
 
-		Sleep(gameStatus->sleepTime);
+		while (player.alive) {
+
+			updatePlayer(&player,level,gameStatus);
+
+			for (int i = 0; i < ENEMY_GROUP; i++) {
+				updateEnemy(&player,enemy+i,level,pathMap,gameStatus);
+			}
+
+			Sleep(gameStatus->sleepTime);
+		}
+
+		gameStatus->life --;
+		if (gameStatus->score > gameStatus->hiScore) {
+			gameStatus->hiScore = gameStatus->score;
+		}
+		gameStatus->score = 0;
+		gameStatus->dots = 0;
+
+		drawGameOver();
+		Sleep(2000);
 	}
 }

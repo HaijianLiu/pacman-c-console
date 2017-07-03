@@ -16,7 +16,7 @@
 #define ENEMY_GROUP (4)
 
 typedef struct {
-	int score, dots, enemyDelay, hardness, sleepTime, life;
+	int score, hiScore, dots, enemyDelay, hardness, sleepTime, life, stage;
 } GameStatus;
 
 GameStatus initGameStatus();
@@ -28,6 +28,9 @@ void initLevel(wchar_t* map, GameStatus* gameStatus);
 void initPathMap(wchar_t* pathMap);
 
 void updateScore(GameStatus* gameStatus);
+
+void drawGameOver();
+void drawStage(GameStatus* gameStatus);
 
 
 #endif
