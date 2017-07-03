@@ -294,7 +294,20 @@ void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap,
 		}
 		// check kill player
 		if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
-			player->alive = false;
+			if (player->super == false) {
+				player->alive = false;
+			}
+			else {
+				if (enemy->id == 0) {
+					enemy->x = 10 + SCREEN_LEFT;
+					enemy->y = 10;
+				}
+				else {
+					enemy->x = 8 + enemy->id + SCREEN_LEFT;
+					enemy->y = 12;
+				}
+				gameStatus->score += SCORE_ENEMY;
+			}
 		}
 	}
 	// update to enemy speed
@@ -307,7 +320,20 @@ void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap,
 		moveEnemy(player,enemy,level);
 		// check kill player
 		if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
-			player->alive = false;
+			if (player->super == false) {
+				player->alive = false;
+			}
+			else {
+				if (enemy->id == 0) {
+					enemy->x = 10 + SCREEN_LEFT;
+					enemy->y = 10;
+				}
+				else {
+					enemy->x = 8 + enemy->id + SCREEN_LEFT;
+					enemy->y = 12;
+				}
+				gameStatus->score += SCORE_ENEMY;
+			}
 		}
 	}
 }

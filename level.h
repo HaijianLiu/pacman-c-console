@@ -12,6 +12,7 @@
 
 #define SCORE_DOT_S (10)
 #define SCORE_DOT_B (50)
+#define SCORE_ENEMY (200)
 
 #define ENEMY_GROUP (4)
 #define DOTS_MAX (189)
