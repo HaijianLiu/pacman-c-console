@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <windows.h>
 #include <wchar.h>
-
 #include "level.h"
 #include "console.h"
 
@@ -19,7 +18,7 @@ GameStatus initGameStatus() {
 	gameStatus.speedCounter = 0;
 	gameStatus.life = 2;
 	gameStatus.stage = 1;
-	gameStatus.superTime = 400;
+	gameStatus.superTime = 50;
 	return gameStatus;
 }
 

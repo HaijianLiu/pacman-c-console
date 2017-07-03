@@ -2,6 +2,7 @@
 #ifndef _LEVEL_H_
 #define _LEVEL_H_
 
+#define MENU_DELAY (22)
 
 #define MAP_SIZE_X (22)
 #define MAP_SIZE_Y (25)
@@ -12,8 +13,9 @@
 #define SCORE_DOT_S (10)
 #define SCORE_DOT_B (50)
 
-#define HARD (240)
 #define ENEMY_GROUP (4)
+#define DOTS_MAX (189)
+
 
 typedef struct {
 	int score, hiScore, dots, hardness, enemyDelay, sleepTime, playerSpeed, enemySpeed, speedCounter, life, stage, superTime;

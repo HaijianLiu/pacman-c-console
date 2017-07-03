@@ -14,6 +14,7 @@ Player initPlayer() {
 	player.color    = YELLOW;
 	player.counter  = 0;
 	player.super    = false;
+	player.superCounter = 0;
 	player.alive    = true;
 	player.maker[0] = L'●';
 	player.maker[1] = L'○';
@@ -78,7 +79,7 @@ void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 			gameStatus->score += SCORE_DOT_B;
 			gameStatus->dots ++;
 			player->super = true;
-			player->counter = gameStatus->superTime;
+			player->superCounter = gameStatus->superTime;
 			updateScore(gameStatus);
 		} else
 
@@ -93,8 +94,8 @@ void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 void updatePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 	if (gameStatus->speedCounter % gameStatus->playerSpeed == 0) {
 		movePlayer(player,level,gameStatus);
-		if (player->counter > 0) {
-			player->counter --;
+		if (player->superCounter > 0) {
+			player->superCounter --;
 		}
 		else {
 			player->super = false;

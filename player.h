@@ -5,7 +5,7 @@
 #include "level.h"
 
 typedef struct {
-	int x, y, move, color, counter;
+	int x, y, move, color, counter, superCounter;
 	bool super, alive;
 	wchar_t maker[2];
 } Player;

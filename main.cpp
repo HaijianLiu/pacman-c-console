@@ -50,7 +50,7 @@ void updateMainGame(GameStatus* gameStatus) {
 			 enemy[i] = initEnemy(i);
 		}
 
-		while (player.alive) {
+		while (player.alive && gameStatus->dots < DOTS_MAX) {
 			updatePlayer(&player,level,gameStatus);
 			for (int i = 0; i < ENEMY_GROUP; i++) {
 				updateEnemy(&player,enemy+i,level,pathMap,gameStatus);
@@ -63,15 +63,20 @@ void updateMainGame(GameStatus* gameStatus) {
 			}
 			gameStatus->speedCounter ++;
 		}
+		if (player.alive == false) {
+			gameStatus->life --;
+			if (gameStatus->score > gameStatus->hiScore) {
+				gameStatus->hiScore = gameStatus->score;
+			}
+			gameStatus->score = 0;
+			gameStatus->dots = 0;
 
-		gameStatus->life --;
-		if (gameStatus->score > gameStatus->hiScore) {
-			gameStatus->hiScore = gameStatus->score;
+			drawGameOver();
+			Sleep(2000);
 		}
-		gameStatus->score = 0;
-		gameStatus->dots = 0;
-
-		drawGameOver();
-		Sleep(2000);
+		if (gameStatus->dots == DOTS_MAX) {
+			gameStatus->stage ++;
+			gameStatus->dots = 0;
+		}
 	}
 }
