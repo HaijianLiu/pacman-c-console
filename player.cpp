@@ -91,11 +91,13 @@ void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 }
 
 void updatePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
-	movePlayer(player,level,gameStatus);
-	if (player->counter > 0) {
-		player->counter --;
-	}
-	else {
-		player->super = false;
+	if (gameStatus->speedCounter % gameStatus->playerSpeed == 0) {
+		movePlayer(player,level,gameStatus);
+		if (player->counter > 0) {
+			player->counter --;
+		}
+		else {
+			player->super = false;
+		}
 	}
 }

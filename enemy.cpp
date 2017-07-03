@@ -282,26 +282,32 @@ void moveEnemy(Player* player, Enemy* enemy, wchar_t* level) {
 }
 
 void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap, GameStatus* gameStatus) {
-	// initEnemy
-	for (int i = 0; i < ENEMY_GROUP-1; i++) {
-		if (gameStatus->dots == gameStatus->enemyDelay*(i+1) && enemy->id == i+1) {
-			coordPrint(enemy->y,enemy->x,L"　",enemy->color);
-			enemy->x = 10 + SCREEN_LEFT;
-			enemy->y = 10;
+	// update to player speed
+	if (gameStatus->speedCounter % gameStatus->playerSpeed == 0) {
+		// initEnemy
+		for (int i = 0; i < ENEMY_GROUP-1; i++) {
+			if (gameStatus->dots == gameStatus->enemyDelay*(i+1) && enemy->id == i+1) {
+				coordPrint(enemy->y,enemy->x,L"　",enemy->color);
+				enemy->x = 10 + SCREEN_LEFT;
+				enemy->y = 10;
+			}
+		}
+		// check kill player
+		if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
+			player->alive = false;
 		}
 	}
-	// if Ai
-	if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□') {
-		enemy->move = getAI(player,enemy,pathMap,gameStatus);
-	}
-	// check kill player
-	if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
-		player->alive = false;
-	}
-	// move enemy according behivaor
-	moveEnemy(player,enemy,level);
-	// check kill player
-	if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
-		player->alive = false;
+	// update to enemy speed
+	if (gameStatus->speedCounter % gameStatus->enemySpeed == 0) {
+		// if Ai
+		if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□') {
+			enemy->move = getAI(player,enemy,pathMap,gameStatus);
+		}
+		// move enemy according behivaor
+		moveEnemy(player,enemy,level);
+		// check kill player
+		if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
+			player->alive = false;
+		}
 	}
 }

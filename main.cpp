@@ -42,7 +42,6 @@ void updateMainGame(GameStatus* gameStatus) {
 		// Init Path Map
 		wchar_t pathMap[MAP_SIZE_X * MAP_SIZE_Y] = {};
 		initPathMap(pathMap);
-
 		// Init Player
 		Player player = initPlayer();
 		// Init Enemy Group
@@ -52,14 +51,17 @@ void updateMainGame(GameStatus* gameStatus) {
 		}
 
 		while (player.alive) {
-
 			updatePlayer(&player,level,gameStatus);
-
 			for (int i = 0; i < ENEMY_GROUP; i++) {
 				updateEnemy(&player,enemy+i,level,pathMap,gameStatus);
 			}
-
+			// speed control
 			Sleep(gameStatus->sleepTime);
+			// reset speedCounter
+			if (gameStatus->speedCounter % (gameStatus->playerSpeed * gameStatus->enemySpeed) == 0 ) {
+				gameStatus->speedCounter = 0;
+			}
+			gameStatus->speedCounter ++;
 		}
 
 		gameStatus->life --;

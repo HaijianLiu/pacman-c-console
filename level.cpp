@@ -11,9 +11,12 @@ GameStatus initGameStatus() {
 	gameStatus.score = 0;
 	gameStatus.hiScore = 0;
 	gameStatus.dots = 0;
-	gameStatus.enemyDelay = 10;
 	gameStatus.hardness = 0;
-	gameStatus.sleepTime = 180;
+	gameStatus.enemyDelay = 10;
+	gameStatus.sleepTime = 30;
+	gameStatus.playerSpeed = 6;
+	gameStatus.enemySpeed = 10;
+	gameStatus.speedCounter = 0;
 	gameStatus.life = 2;
 	gameStatus.stage = 1;
 	gameStatus.superTime = 400;
