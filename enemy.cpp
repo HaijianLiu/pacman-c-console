@@ -51,113 +51,197 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus
 	int counter = 4;
 	int m = enemy->move;
 
-	while (1) {
+	if (player->super == true) {
+		while (1) {
 
-		enemy->move = rand()%4 + 1;
+			enemy->move = rand()%4 + 1;
 
-		switch (enemy->move) {
-			case UP:
-				if (*(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
-					if (enemy->id > gameStatus->hardness) {
-						if ( m != DOWN) {
-							return UP;
-						}
-					}
-					else {
+			switch (enemy->move) {
+				case UP:
+					if (*(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != DOWN) {
 							return UP;
 						}
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
 							if (counter > 0) {
-								if (player->y < enemy->y) {
+								if (player->y > enemy->y) {
 									return UP;
 								}
 							} else {
-								if (player->y <= enemy->y) {
+								if (player->y >= enemy->y) {
 									return UP;
 								}
 							}
 						}
 					}
-				}
-				break;
-			case DOWN:
-				if (*(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
-					if (enemy->id > gameStatus->hardness) {
-						if (m != UP) {
-							return DOWN;
-						}
-					}
-					else {
+					break;
+				case DOWN:
+					if (*(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != UP) {
 							return DOWN;
 						}
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
 							if (counter > 0) {
-								if (player->y > enemy->y) {
+								if (player->y < enemy->y) {
 									return DOWN;
 								}
 							} else {
-								if (player->y >= enemy->y) {
+								if (player->y <= enemy->y) {
 									return DOWN;
 								}
 							}
 						}
 					}
-				}
-				break;
-			case LEFT:
-				if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'　') {
-					if (enemy->id > gameStatus->hardness) {
-						if (m != RIGHT) {
-							return LEFT;
-						}
-					}
-					else {
+					break;
+				case LEFT:
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'　') {
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != RIGHT) {
 							return LEFT;
 						}
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
 							if (counter > 0) {
-								if (player->x < enemy->x) {
+								if (player->x > enemy->x) {
 									return LEFT;
 								}
 							} else {
-								if (player->x <= enemy->x) {
+								if (player->x >= enemy->x) {
 									return LEFT;
 								}
 							}
 						}
 					}
-				}
-				break;
-			case RIGHT:
-				if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'　') {
-					if (enemy->id > gameStatus->hardness) {
-						if (m != LEFT) {
-							return RIGHT;
-						}
-					}
-					else {
+					break;
+				case RIGHT:
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'　') {
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != LEFT) {
 							return RIGHT;
 						}
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
 							if (counter > 0) {
-								if (player->x > enemy->x) {
+								if (player->x < enemy->x) {
 									return RIGHT;
 								}
 							} else {
-								if (player->x >= enemy->x) {
+								if (player->x <= enemy->x) {
 									return RIGHT;
 								}
 							}
 						}
 					}
-				}
-				break;
+					break;
+			}
+			counter --;
 		}
-		counter --;
+	}
+	else {
+		while (1) {
+
+			enemy->move = rand()%4 + 1;
+
+			switch (enemy->move) {
+				case UP:
+					if (*(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
+						if (enemy->id > gameStatus->hardness) {
+							if ( m != DOWN) {
+								return UP;
+							}
+						}
+						else {
+							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != DOWN) {
+								return UP;
+							}
+							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+								if (counter > 0) {
+									if (player->y < enemy->y) {
+										return UP;
+									}
+								} else {
+									if (player->y <= enemy->y) {
+										return UP;
+									}
+								}
+							}
+						}
+					}
+					break;
+				case DOWN:
+					if (*(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
+						if (enemy->id > gameStatus->hardness) {
+							if (m != UP) {
+								return DOWN;
+							}
+						}
+						else {
+							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != UP) {
+								return DOWN;
+							}
+							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+								if (counter > 0) {
+									if (player->y > enemy->y) {
+										return DOWN;
+									}
+								} else {
+									if (player->y >= enemy->y) {
+										return DOWN;
+									}
+								}
+							}
+						}
+					}
+					break;
+				case LEFT:
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'　') {
+						if (enemy->id > gameStatus->hardness) {
+							if (m != RIGHT) {
+								return LEFT;
+							}
+						}
+						else {
+							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != RIGHT) {
+								return LEFT;
+							}
+							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+								if (counter > 0) {
+									if (player->x < enemy->x) {
+										return LEFT;
+									}
+								} else {
+									if (player->x <= enemy->x) {
+										return LEFT;
+									}
+								}
+							}
+						}
+					}
+					break;
+				case RIGHT:
+					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'　') {
+						if (enemy->id > gameStatus->hardness) {
+							if (m != LEFT) {
+								return RIGHT;
+							}
+						}
+						else {
+							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != LEFT) {
+								return RIGHT;
+							}
+							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
+								if (counter > 0) {
+									if (player->x > enemy->x) {
+										return RIGHT;
+									}
+								} else {
+									if (player->x >= enemy->x) {
+										return RIGHT;
+									}
+								}
+							}
+						}
+					}
+					break;
+			}
+			counter --;
+		}
 	}
 }
 
