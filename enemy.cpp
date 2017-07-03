@@ -161,7 +161,7 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus
 	}
 }
 
-void moveEnemy(Enemy* enemy, wchar_t* level) {
+void moveEnemy(Player* player, Enemy* enemy, wchar_t* level) {
 
 	if (enemy->move != 0) {
 		int x = enemy->x;
@@ -188,7 +188,12 @@ void moveEnemy(Enemy* enemy, wchar_t* level) {
 		}
 
 		coordPrint(y,x,*(level + y*MAP_SIZE_X + x - SCREEN_LEFT),YELLOW);
-		coordPrint(enemy->y,enemy->x,enemy->maker,enemy->color);
+		if (player->super == true) {
+			coordPrint(enemy->y,enemy->x,enemy->maker,BLUE);
+		}
+		else {
+			coordPrint(enemy->y,enemy->x,enemy->maker,enemy->color);
+		}
 	}
 }
 
@@ -210,7 +215,7 @@ void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap,
 		player->alive = false;
 	}
 	// move enemy according behivaor
-	moveEnemy(enemy,level);
+	moveEnemy(player,enemy,level);
 	// check kill player
 	if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
 		player->alive = false;

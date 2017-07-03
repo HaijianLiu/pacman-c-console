@@ -77,6 +77,8 @@ void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 			// Update status
 			gameStatus->score += SCORE_DOT_B;
 			gameStatus->dots ++;
+			player->super = true;
+			player->counter = gameStatus->superTime;
 			updateScore(gameStatus);
 		} else
 
@@ -90,4 +92,10 @@ void movePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 
 void updatePlayer(Player* player, wchar_t* level, GameStatus* gameStatus) {
 	movePlayer(player,level,gameStatus);
+	if (player->counter > 0) {
+		player->counter --;
+	}
+	else {
+		player->super = false;
+	}
 }

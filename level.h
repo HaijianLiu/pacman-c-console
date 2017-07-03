@@ -16,7 +16,7 @@
 #define ENEMY_GROUP (4)
 
 typedef struct {
-	int score, hiScore, dots, enemyDelay, hardness, sleepTime, life, stage;
+	int score, hiScore, dots, enemyDelay, hardness, sleepTime, life, stage, superTime;
 } GameStatus;
 
 GameStatus initGameStatus();

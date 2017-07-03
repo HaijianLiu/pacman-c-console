@@ -16,6 +16,7 @@ GameStatus initGameStatus() {
 	gameStatus.sleepTime = 180;
 	gameStatus.life = 2;
 	gameStatus.stage = 1;
+	gameStatus.superTime = 200;
 	return gameStatus;
 }
 

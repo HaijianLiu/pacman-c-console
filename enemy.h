@@ -15,7 +15,7 @@ Enemy initEnemy(int id);
 
 int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus);
 
-void moveEnemy(Enemy* enemy, wchar_t* level);
+void moveEnemy(Player* player, Enemy* enemy, wchar_t* level);
 
 void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap, GameStatus* gameStatus);
 
