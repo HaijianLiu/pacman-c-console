@@ -12,6 +12,7 @@ GameStatus initGameStatus() {
 	gameStatus.enemyDelay = 10;
 	gameStatus.hardness = 0;
 	gameStatus.sleepTime = 180;
+	gameStatus.life = 2;
 	return gameStatus;
 }
 

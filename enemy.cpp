@@ -205,6 +205,14 @@ void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap,
 	if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□') {
 		enemy->move = getAI(player,enemy,pathMap,gameStatus);
 	}
+	// check kill player
+	if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
+		player->alive = false;
+	}
 	// move enemy according behivaor
 	moveEnemy(enemy,level);
+	// check kill player
+	if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
+		player->alive = false;
+	}
 }

@@ -4,15 +4,17 @@
 
 #include "main.h"
 
+
+
 int main(void) {
 
 	// Set console status
 	initConsole();
 
-
 	// Init GameStatus
 	GameStatus gameStatus = initGameStatus();
 
+	drawTutorial();
 	// Main Title Screen
 	updateMainTitle(&gameStatus);
 	// Main Game
@@ -21,9 +23,9 @@ int main(void) {
 	return 0;
 }
 
-void updateMainTitle(GameStatus* gameStatus) {
-	drawTutorial();
 
+
+void updateMainTitle(GameStatus* gameStatus) {
 	wchar_t titleText[TITLE_SIZE_X * TITLE_SIZE_Y] = {};
 	initTitle(titleText);
 	updateTitle(titleText,gameStatus);
@@ -47,13 +49,14 @@ void updateMainGame(GameStatus* gameStatus) {
 		 enemy[i] = initEnemy(i);
 	}
 
-	while (1) {
+	while (player.alive) {
 
 		updatePlayer(&player,level,gameStatus);
 
 		for (int i = 0; i < ENEMY_GROUP; i++) {
 			updateEnemy(&player,enemy+i,level,pathMap,gameStatus);
 		}
+
 		Sleep(gameStatus->sleepTime);
 	}
 }
