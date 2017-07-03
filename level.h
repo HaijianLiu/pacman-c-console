@@ -12,12 +12,11 @@
 #define SCORE_DOT_S (10)
 #define SCORE_DOT_B (50)
 
-#define NORMAL (180)
 #define HARD (240)
 #define ENEMY_GROUP (4)
 
 typedef struct {
-	int score, dots, enemyDelay, hardness;
+	int score, dots, enemyDelay, hardness, sleepTime;
 } GameStatus;
 
 GameStatus initGameStatus();

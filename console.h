@@ -9,6 +9,7 @@
 #define PINK  (13)
 #define CYAN  (11)
 #define GREEN  (10)
+#define GRAY  (8)
 
 
 /*

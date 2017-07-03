@@ -18,6 +18,8 @@ int getController(int move) {
 				return KEY_LEFT;
 			case 0x4D: // right
 				return KEY_RIGHT;
+			case 0x0D: // right
+				return KEY_ENTER;
 		}
 	}
 	return move;

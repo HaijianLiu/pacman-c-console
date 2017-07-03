@@ -11,6 +11,7 @@ GameStatus initGameStatus() {
 	gameStatus.dots = 0;
 	gameStatus.enemyDelay = 10;
 	gameStatus.hardness = 0;
+	gameStatus.sleepTime = 180;
 	return gameStatus;
 }
 
@@ -82,7 +83,7 @@ void initPathMap(wchar_t* pathMap) {
 		L"┃　┏━┓　┏━┓　┃　┏━┓　┏━┓　┃",
 		L"┃　┃　┃　┃　┃　┃　┃　┃　┃　┃　┃",
 		L"┃　┗━┛　┗━┛　┃　┗━┛　┗━┛　┃",
-		L"┃■　　　■　■　■　■　■　■　　　■┃",
+		L"┃■　　　■　■　□　□　■　■　　　■┃",
 		L"┃　┏━┓　┃　┏━━━┓　┃　┏━┓　┃",
 		L"┃　┗━┛　┃　┗━┳━┛　┃　┗━┛　┃",
 		L"┃□　　　■┃□　□┃□　□┃■　　　□┃",
