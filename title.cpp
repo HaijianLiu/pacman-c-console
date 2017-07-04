@@ -14,7 +14,7 @@ void drawTutorial() {
 
 
 void initTitle(wchar_t* titleText) {
-
+	system("cls");
 	// wchar_t text[TITLE_SIZE_Y][TITLE_SIZE_X] = {
 	// 	L"┏━━━━┓　┏━━━━━┓┏━━━━━┓┏━━━━┓",
 	// 	L"┃・・・・┗┓┃・・・・・┃┃・・・・・┃┃・・・・┃",

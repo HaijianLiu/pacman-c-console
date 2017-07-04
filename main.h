@@ -10,5 +10,8 @@
 
 void updateMainTitle(GameStatus* gameStatus);
 void updateMainGame(GameStatus* gameStatus);
+void frameRateControl(GameStatus* gameStatus);
+void updateGameOver(GameStatus* gameStatus);
+void updateGameClear(wchar_t* level, GameStatus* gameStatus);
 
 #endif
