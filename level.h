@@ -34,6 +34,7 @@ void updateScore(GameStatus* gameStatus);
 
 void drawGameOver();
 void drawStage(GameStatus* gameStatus);
+void animeGameClear(wchar_t* level);
 
 
 #endif

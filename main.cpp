@@ -77,6 +77,7 @@ void updateMainGame(GameStatus* gameStatus) {
 		if (gameStatus->dots == DOTS_MAX) {
 			gameStatus->stage ++;
 			gameStatus->dots = 0;
+			animeGameClear(level);
 		}
 	}
 }

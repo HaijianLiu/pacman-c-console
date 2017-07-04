@@ -137,3 +137,19 @@ void drawStage(GameStatus* gameStatus) {
 	coordPrint(11,27,gameStatus->life,WHITE);
 	Sleep(2000);
 }
+
+void animeGameClear(wchar_t* level) {
+	for (int j = 0; j < 6; j++) {
+		if (j%2 == 0) {
+			for (int i = 0; i < MAP_SIZE_Y; i++) {
+				coordPrint(i,SCREEN_LEFT,&level[i * MAP_SIZE_X],WHITE);
+			}
+		}
+		else {
+			for (int i = 0; i < MAP_SIZE_Y; i++) {
+				coordPrint(i,SCREEN_LEFT,&level[i * MAP_SIZE_X],BLUE);
+			}
+		}
+		Sleep(500);
+	}
+}
