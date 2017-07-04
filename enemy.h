@@ -7,7 +7,6 @@
 
 typedef struct {
 	int id, x, y, move, color;
-	bool alive;
 	wchar_t maker;
 } Enemy;
 

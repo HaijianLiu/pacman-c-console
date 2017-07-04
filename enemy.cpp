@@ -16,7 +16,6 @@ Enemy initEnemy(int id) {
 	Enemy enemy;
 	enemy.id       = id;
 	enemy.move     = 0;
-	enemy.alive    = true;
 	enemy.maker    = L'▲';
 
 	switch (id) {

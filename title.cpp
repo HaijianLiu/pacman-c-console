@@ -56,9 +56,9 @@ void initTitle(wchar_t* titleText) {
 		}
 	}
 
-	coordPrint(TEXT_COORD_Y,TEXT_COORD_X,L"ＮＯＲＭＡＬ",YELLOW);
-	coordPrint(TEXT_COORD_Y,TEXT_COORD_X+8,L"ＨＡＲＤ",GRAY);
-	coordPrint(TEXT_COORD_Y,TEXT_COORD_X+14,L"ＡＫＵＭＵ",GRAY);
+	// coordPrint(TEXT_COORD_Y,TEXT_COORD_X,L"ＮＯＲＭＡＬ",YELLOW);
+	// coordPrint(TEXT_COORD_Y,TEXT_COORD_X+8,L"ＨＡＲＤ",GRAY);
+	// coordPrint(TEXT_COORD_Y,TEXT_COORD_X+14,L"ＡＫＵＭＵ",GRAY);
 
 }
 
@@ -66,7 +66,7 @@ void initTitle(wchar_t* titleText) {
 void updateTitle(wchar_t* titleText, GameStatus* gameStatus) {
 	int count = 0;
 	bool press = false;
-	int select = 0;
+	int select = 1;
 	int key = 0;
 	while (!press) {
 		// title animation
@@ -109,24 +109,39 @@ void updateTitle(wchar_t* titleText, GameStatus* gameStatus) {
 		// update select
 		switch (select) {
 			case 0:
-				coordPrint(TEXT_COORD_Y,TEXT_COORD_X,L"ＮＯＲＭＡＬ",YELLOW);
-				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+8,L"ＨＡＲＤ",GRAY);
-				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+14,L"ＡＫＵＭＵ",GRAY);
+				coordPrint(TEXT_COORD_Y,TEXT_COORD_X,L"ＥＡＳＹ",YELLOW);
+				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+7,L"ＮＯＲＭＡＬ",GRAY);
+				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+16,L"ＨＡＲＤ",GRAY);
 				break;
 			case 1:
-				coordPrint(TEXT_COORD_Y,TEXT_COORD_X,L"ＮＯＲＭＡＬ",GRAY);
-				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+8,L"ＨＡＲＤ",YELLOW);
-				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+14,L"ＡＫＵＭＵ",GRAY);
+				coordPrint(TEXT_COORD_Y,TEXT_COORD_X,L"ＥＡＳＹ",GRAY);
+				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+7,L"ＮＯＲＭＡＬ",YELLOW);
+				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+16,L"ＨＡＲＤ",GRAY);
 				break;
 			case 2:
-				coordPrint(TEXT_COORD_Y,TEXT_COORD_X,L"ＮＯＲＭＡＬ",GRAY);
-				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+8,L"ＨＡＲＤ",GRAY);
-				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+14,L"ＡＫＵＭＵ",YELLOW);
+				coordPrint(TEXT_COORD_Y,TEXT_COORD_X,L"ＥＡＳＹ",GRAY);
+				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+7,L"ＮＯＲＭＡＬ",GRAY);
+				coordPrint(TEXT_COORD_Y,TEXT_COORD_X+16,L"ＨＡＲＤ",YELLOW);
 				break;
 		}
 
 		count ++;
 		Sleep(100);
 	}
+	// set game hardness
 	gameStatus->hardness = select;
+	switch (gameStatus->hardness) {
+		case 0:
+			gameStatus->enemySpeed = 10;
+			gameStatus->superTime = 30;
+			break;
+		case 1:
+			gameStatus->enemySpeed = 8;
+			gameStatus->superTime = 20;
+			break;
+		case 2:
+			gameStatus->enemySpeed = 6;
+			gameStatus->superTime = 10;
+			break;
+	}
 }
