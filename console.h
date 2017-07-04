@@ -1,16 +1,23 @@
 ﻿
+/*==============================================================================
+console.h　コンソールパラメータヘッダー
+Author　　　GP-11A-243 (40) LIU HAIJIAN
+==============================================================================*/
 #ifndef _CONSOLE_H_
 #define _CONSOLE_H_
 
-#define BLUE   (9)
-#define YELLOW (14)
-#define RED    (12)
+/*==============================================================================
+マクロ定義
+==============================================================================*/
+// 文字の色
 #define WHITE  (7)
-#define PINK  (13)
-#define CYAN  (11)
+#define GRAY   (8)
+#define BLUE   (9)
 #define GREEN  (10)
-#define GRAY  (8)
-
+#define CYAN   (11)
+#define RED    (12)
+#define PINK   (13)
+#define YELLOW (14)
 
 /*
 Color         Background Foreground
@@ -33,13 +40,12 @@ Yellow           -           14
 Intense White    -           15
 */
 
-// コンソールを初期化
+/*==============================================================================
+プロトタイプ宣言
+==============================================================================*/
 void initConsole();
-
-// 文字を表示（座標：x,y  色：color）
 void coordPrint(int y, int x, wchar_t* str, int color);
 void coordPrint(int y, int x, wchar_t ch, int color);
-// 数字を表示（座標：x,y  色：color）
 void coordPrint(int y, int x, int num, int color);
 
 

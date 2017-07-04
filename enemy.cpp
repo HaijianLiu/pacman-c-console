@@ -1,23 +1,37 @@
 ﻿
+/*==============================================================================
+enemy.cpp　エネミープログラム
+Author　　　GP-11A-243 (40) LIU HAIJIAN
+==============================================================================*/
+
+/*==============================================================================
+インクルードファイル
+==============================================================================*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <wchar.h>
-
 #include "enemy.h"
 #include "console.h"
 
-#define UP (1)
-#define DOWN (2)
-#define LEFT (3)
+/*==============================================================================
+マクロ定義
+==============================================================================*/
+// エネミーの移動方向
+#define UP    (1)
+#define DOWN  (2)
+#define LEFT  (3)
 #define RIGHT (4)
 
-
+/*==============================================================================
+構造体の初期化
+==============================================================================*/
 Enemy initEnemy(int id) {
 	Enemy enemy;
-	enemy.id       = id;
-	enemy.move     = 0;
-	enemy.maker    = L'▲';
+	enemy.id       = id;   // エネミーID
+	enemy.move     = 0;    // エネミー移動方向変数
+	enemy.maker    = L'▲'; // エネミーパターン
 
+	// エネミー初期位置とカラーの初期化
 	switch (id) {
 		case 0:
 			enemy.x        = 10 + SCREEN_LEFT;
@@ -41,26 +55,37 @@ Enemy initEnemy(int id) {
 			break;
 	}
 
+	// エネミーの表示
 	coordPrint(enemy.y,enemy.x,enemy.maker,enemy.color);
 	return enemy;
 }
 
+/*==============================================================================
+エネミーAIの計算
+戻り値：移動方向
+==============================================================================*/
 int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus) {
 
-	int counter = 4;
-	int m = enemy->move;
+	int counter = 4;     // AI計算回数
+	int m = enemy->move; // エネミー位置の保存
 
+	// もしプレイヤーが無敵、プレイヤーを避ける
 	if (player->super == true) {
+		// 結果出るまでループ
 		while (1) {
 
-			enemy->move = rand()%4 + 1;
+			enemy->move = rand()%4 + 1; // ランダム方向の取得
 
+			// 行き先のチェック
 			switch (enemy->move) {
 				case UP:
+					// 行き先が壁ではない
 					if (*(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
+						// AIが必要ない場合
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != DOWN) {
 							return UP;
 						}
+						// AIが必要な場合
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
 							if (counter > 0) {
 								if (player->y > enemy->y) {
@@ -75,10 +100,13 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus
 					}
 					break;
 				case DOWN:
+					// 行き先が壁ではない
 					if (*(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
+						// AIが必要ない場合
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != UP) {
 							return DOWN;
 						}
+						// AIが必要な場合
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
 							if (counter > 0) {
 								if (player->y < enemy->y) {
@@ -93,10 +121,13 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus
 					}
 					break;
 				case LEFT:
+					// 行き先が壁ではない
 					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'　') {
+						// AIが必要ない場合
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != RIGHT) {
 							return LEFT;
 						}
+						// AIが必要な場合
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
 							if (counter > 0) {
 								if (player->x > enemy->x) {
@@ -111,10 +142,13 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus
 					}
 					break;
 				case RIGHT:
+					// 行き先が壁ではない
 					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'　') {
+						// AIが必要ない場合
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != LEFT) {
 							return RIGHT;
 						}
+						// AIが必要な場合
 						if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■') {
 							if (counter > 0) {
 								if (player->x < enemy->x) {
@@ -132,19 +166,25 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus
 			counter --;
 		}
 	}
+	// もしプレイヤーが無敵ではない、プレイヤーを探す
 	else {
+		// 結果出るまでループ
 		while (1) {
 
-			enemy->move = rand()%4 + 1;
+			enemy->move = rand()%4 + 1; // ランダム方向の取得
 
 			switch (enemy->move) {
 				case UP:
+					// 行き先が壁ではない
 					if (*(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y-1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
+						// ゲームの難易度によって、AIがあるエネミーのIDをチェック
+						// AIがない場合
 						if (enemy->id > gameStatus->hardness) {
 							if ( m != DOWN) {
 								return UP;
 							}
 						}
+						// AIがある場合
 						else {
 							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != DOWN) {
 								return UP;
@@ -164,12 +204,16 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus
 					}
 					break;
 				case DOWN:
+					// 行き先が壁ではない
 					if (*(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' || *(pathMap + (enemy->y+1)*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'　') {
+						// ゲームの難易度によって、AIがあるエネミーのIDをチェック
+						// AIがない場合
 						if (enemy->id > gameStatus->hardness) {
 							if (m != UP) {
 								return DOWN;
 							}
 						}
+						// AIがある場合
 						else {
 							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != UP) {
 								return DOWN;
@@ -189,12 +233,16 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus
 					}
 					break;
 				case LEFT:
+					// 行き先が壁ではない
 					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - 1 - SCREEN_LEFT) == L'　') {
+						// ゲームの難易度によって、AIがあるエネミーのIDをチェック
+						// AIがない場合
 						if (enemy->id > gameStatus->hardness) {
 							if (m != RIGHT) {
 								return LEFT;
 							}
 						}
+						// AIがある場合
 						else {
 							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != RIGHT) {
 								return LEFT;
@@ -214,12 +262,16 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus
 					}
 					break;
 				case RIGHT:
+					// 行き先が壁ではない
 					if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'□' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x + 1 - SCREEN_LEFT) == L'　') {
+						// ゲームの難易度によって、AIがあるエネミーのIDをチェック
+						// AIがない場合
 						if (enemy->id > gameStatus->hardness) {
 							if (m != LEFT) {
 								return RIGHT;
 							}
 						}
+						// AIがある場合
 						else {
 							if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□' && m != LEFT) {
 								return RIGHT;
@@ -239,11 +291,15 @@ int getAI(Player* player, Enemy* enemy, wchar_t* pathMap, GameStatus* gameStatus
 					}
 					break;
 			}
+			// AI計算回数の減少
 			counter --;
 		}
 	}
 }
 
+/*==============================================================================
+エネミーの移動
+==============================================================================*/
 void moveEnemy(Player* player, Enemy* enemy, wchar_t* level) {
 
 	if (enemy->move != 0) {
@@ -269,8 +325,9 @@ void moveEnemy(Player* player, Enemy* enemy, wchar_t* level) {
 				}
 				break;
 		}
-
 		coordPrint(y,x,*(level + y*MAP_SIZE_X + x - SCREEN_LEFT),YELLOW);
+
+		// もしプレイヤーが無敵、色が変わる
 		if (player->super == true) {
 			coordPrint(enemy->y,enemy->x,enemy->maker,BLUE);
 		}
@@ -280,10 +337,15 @@ void moveEnemy(Player* player, Enemy* enemy, wchar_t* level) {
 	}
 }
 
+/*==============================================================================
+エネミーの更新
+==============================================================================*/
 void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap, GameStatus* gameStatus) {
-	// update to player speed
+
+	// プレイヤー更新率のチェック
 	if (gameStatus->speedCounter % gameStatus->playerSpeed == 0) {
-		// initEnemy
+
+		// 新しいエネミーの初期化
 		for (int i = 0; i < ENEMY_GROUP-1; i++) {
 			if (gameStatus->dots == gameStatus->enemyDelay*(i+1) && enemy->id == i+1) {
 				coordPrint(enemy->y,enemy->x,L"　",enemy->color);
@@ -291,11 +353,14 @@ void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap,
 				enemy->y = 10;
 			}
 		}
-		// check kill player
+
+		// もしプレイヤーとエネミーが同じい位置にいる
 		if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
+			// もしプレイヤーが無敵ではない、プレイヤーが死ぬ
 			if (player->super == false) {
 				player->alive = false;
 			}
+			// もしプレイヤーが無敵、エネミーがリセット
 			else {
 				enemy->x = 10 + SCREEN_LEFT;
 				enemy->y = 10;
@@ -303,19 +368,24 @@ void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap,
 			}
 		}
 	}
-	// update to enemy speed
+
+	// エネミー更新率のチェック
 	if (gameStatus->speedCounter % gameStatus->enemySpeed == 0) {
-		// if Ai
+
+		// もしAIが必要かもしれない時、AIが実行
 		if (*(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'■' || *(pathMap + enemy->y*MAP_SIZE_X + enemy->x - SCREEN_LEFT) == L'□') {
 			enemy->move = getAI(player,enemy,pathMap,gameStatus);
 		}
-		// move enemy according behivaor
+		// もしAIが必要ない場合、エネミーが普通に移動
 		moveEnemy(player,enemy,level);
-		// check kill player
+
+		// もしプレイヤーとエネミーが同じい位置にいる
 		if ( (enemy->x == player->x) && (enemy->y == player->y) ) {
+			// もしプレイヤーが無敵ではない、プレイヤーが死ぬ
 			if (player->super == false) {
 				player->alive = false;
 			}
+			// もしプレイヤーが無敵、エネミーがリセット
 			else {
 				enemy->x = 10 + SCREEN_LEFT;
 				enemy->y = 10;

@@ -1,18 +1,31 @@
 ﻿
+/*==============================================================================
+title.cpp　タイトルプログラム
+Author　　　GP-11A-243 (40) LIU HAIJIAN
+==============================================================================*/
+
+/*==============================================================================
+インクルードファイル
+==============================================================================*/
 #include <stdio.h>
 #include <windows.h>
 #include <wchar.h>
-
 #include "title.h"
 #include "console.h"
 #include "controller.h"
 
+/*==============================================================================
+チュートリアルの表示
+==============================================================================*/
 void drawTutorial() {
 	coordPrint(11,12,L"方向：←↑↓→　決定：ＥＮＴＥＲ",WHITE);
 	getchar();
 }
 
-
+/*==============================================================================
+タイトルデータの初期化
+データの保存　wchar_t* titleText
+==============================================================================*/
 void initTitle(wchar_t* titleText) {
 	system("cls");
 	// wchar_t text[TITLE_SIZE_Y][TITLE_SIZE_X] = {
@@ -27,6 +40,7 @@ void initTitle(wchar_t* titleText) {
 	// 	L"┗━━━━┛　┗━━━━━┛　　┗━┛　　┗━━━━┛",
 	// };
 
+	// タイトルデーター
 	wchar_t text[TITLE_SIZE_Y][TITLE_SIZE_X] = {
 		L"┏━━━━━┓┏━━━━━┓┏━━━━━┓┏━━━━┓",
 		L"┃・・・・・┃┃・・・・・┃┃・・・・・┃┃・・・・┃",
@@ -39,6 +53,7 @@ void initTitle(wchar_t* titleText) {
 		L"┗━┛　　　　┗━┛　┗━┛┗━━━━━┛┗━━━━┛",
 	};
 
+	// データーの保存と表示
 	for (int i = 0; i < TITLE_SIZE_Y; i++) {
 		wcsncpy_s(&titleText[i*TITLE_SIZE_X],TITLE_SIZE_X,&text[i][0],TITLE_SIZE_X);
 		if (i%2 == 0) {
@@ -55,21 +70,22 @@ void initTitle(wchar_t* titleText) {
 			}
 		}
 	}
-
-	// coordPrint(TEXT_COORD_Y,TEXT_COORD_X,L"ＮＯＲＭＡＬ",YELLOW);
-	// coordPrint(TEXT_COORD_Y,TEXT_COORD_X+8,L"ＨＡＲＤ",GRAY);
-	// coordPrint(TEXT_COORD_Y,TEXT_COORD_X+14,L"ＡＫＵＭＵ",GRAY);
-
 }
 
-
+/*==============================================================================
+タイトルの動画と操作
+==============================================================================*/
 void updateTitle(wchar_t* titleText, GameStatus* gameStatus) {
-	int count = 0;
+
+	// ローカル変数
+	int count  = 0;
 	bool press = false;
 	int select = 1;
-	int key = 0;
+	int key    = 0;
+
+	// もしゲームがスタートしない
 	while (!press) {
-		// title animation
+		// タイトル動画
 		if (count%5 == 0) {
 			for (int i = 0; i < TITLE_SIZE_Y; i++) {
 				if ((i+count)%2 == 0) {
@@ -87,7 +103,8 @@ void updateTitle(wchar_t* titleText, GameStatus* gameStatus) {
 				}
 			}
 		}
-		// input key
+
+		// キーの入力
 		key = getController(0);
 		if (key != 0) {
 			switch (key) {
@@ -106,7 +123,8 @@ void updateTitle(wchar_t* titleText, GameStatus* gameStatus) {
 					break;
 			}
 		}
-		// update select
+
+		// 選択の更新
 		switch (select) {
 			case 0:
 				coordPrint(TEXT_COORD_Y,TEXT_COORD_X,L"ＥＡＳＹ",YELLOW);
@@ -128,7 +146,8 @@ void updateTitle(wchar_t* titleText, GameStatus* gameStatus) {
 		count ++;
 		Sleep(100);
 	}
-	// set game hardness
+
+	// ゲームの難易度を更新
 	gameStatus->hardness = select;
 	switch (gameStatus->hardness) {
 		case 0:

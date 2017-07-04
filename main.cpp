@@ -1,105 +1,136 @@
 ﻿
+/*==============================================================================
+main.cpp　メインプログラム
+Author　　GP-11A-243 (40) LIU HAIJIAN
+==============================================================================*/
+
+/*==============================================================================
+インクルードファイル
+==============================================================================*/
 #include <stdio.h>
 #include <windows.h>
-
 #include "main.h"
 
-
-
+/*==============================================================================
+ main関数
+==============================================================================*/
 int main(void) {
 
-	// Set console status
+	// コンソールの初期化
 	initConsole();
-
+	// チュートリアルの表示
 	drawTutorial();
 
-	// loop game
+	// メインゲームループ（ゲームオーバーしたら、タイトルに戻る）
 	while (true) {
-		// Init GameStatus
+		// ゲームパラメータの初期化
 		GameStatus gameStatus = initGameStatus();
-		// Main Title Screen
+		// タイトルの更新
 		updateMainTitle(&gameStatus);
-		// Main Game
+		// メインゲームの更新
 		updateMainGame(&gameStatus);
 	}
 
+	// 終了
 	return 0;
 }
 
 
-
+/*==============================================================================
+タイトルの更新
+==============================================================================*/
 void updateMainTitle(GameStatus* gameStatus) {
 	wchar_t titleText[TITLE_SIZE_X * TITLE_SIZE_Y] = {};
 	initTitle(titleText);
 	updateTitle(titleText,gameStatus);
 }
 
+/*==============================================================================
+メインゲームの更新
+==============================================================================*/
 void updateMainGame(GameStatus* gameStatus) {
-	// while there is life then loop
+
+	// ライフが残ったら、ループ
 	while (gameStatus->life >= 0) {
-		// draw stage number
+
+		// ステイージの表示
 		drawStage(gameStatus);
-		// Init Map
+		// マップの初期化
 		wchar_t level[MAP_SIZE_X * MAP_SIZE_Y] = {};
 		initLevel(level,gameStatus);
-		// Init Path Map
+		// AIマップの初期化
 		wchar_t pathMap[MAP_SIZE_X * MAP_SIZE_Y] = {};
 		initPathMap(pathMap);
-		// Init Player
+		// プレイヤーの初期化
 		Player player = initPlayer();
-		// Init Enemy Group
+		// エネミーグループの初期化
 		Enemy enemy[ENEMY_GROUP];
 		for (int i = 0; i < ENEMY_GROUP; i++) {
 			 enemy[i] = initEnemy(i);
 		}
-		// main game loop
+
+		// もしプレイヤーが生きている、かつ、ゲームがクリアしていない、ループ…
 		while (player.alive && gameStatus->dots < DOTS_MAX) {
-			// update player & enemy
+			// プレイヤーの更新
 			updatePlayer(&player,level,gameStatus);
+			// エネミーの更新
 			for (int i = 0; i < ENEMY_GROUP; i++) {
 				updateEnemy(&player,enemy+i,level,pathMap,gameStatus);
 			}
-			// speed control
+			// フレイム率の調整
 			frameRateControl(gameStatus);
 		}
-		// if game over
+
+		// もしプレイヤーが死んでいる
 		if (player.alive == false) {
+			// ゲームパラメータの更新
 			updateGameOver(gameStatus);
 		}
-		// if game clear
+		// もしゲームクリア
 		if (gameStatus->dots == DOTS_MAX) {
+			// ゲームパラメータの更新
 			updateGameClear(level,gameStatus);
 		}
 	}
 }
 
+/*==============================================================================
+フレイム率の調整
+==============================================================================*/
 void frameRateControl(GameStatus* gameStatus) {
+	// 待ち
 	Sleep(gameStatus->sleepTime);
-	// reset speedCounter
+	// 速度調整変数のリセット
 	if (gameStatus->speedCounter % (gameStatus->playerSpeed * gameStatus->enemySpeed) == 0 ) {
 		gameStatus->speedCounter = 0;
 	}
-	// speed counter ++
+	// 速度計数 ++
 	gameStatus->speedCounter ++;
 }
 
+/*==============================================================================
+ゲームオーバーパラメータの更新
+==============================================================================*/
 void updateGameOver(GameStatus* gameStatus) {
-	// reset gameStatus
+	// 最大スーコアの更新
 	gameStatus->life --;
 	if (gameStatus->score > gameStatus->hiScore) {
 		gameStatus->hiScore = gameStatus->score;
 	}
 	gameStatus->score = 0;
 	gameStatus->dots = 0;
-	// draw something
+	// 表示
 	drawGameOver();
 	Sleep(2000);
 }
 
+/*==============================================================================
+ゲームクリアパラメータの更新
+==============================================================================*/
 void updateGameClear(wchar_t* level, GameStatus* gameStatus) {
-	// set gameStatus
+	// ステージ数の更新
 	gameStatus->stage ++;
 	gameStatus->dots = 0;
-	// draw something
+	// 表示
 	animeGameClear(level);
 }
