@@ -298,14 +298,8 @@ void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap,
 				player->alive = false;
 			}
 			else {
-				if (enemy->id == 0) {
-					enemy->x = 10 + SCREEN_LEFT;
-					enemy->y = 10;
-				}
-				else {
-					enemy->x = 8 + enemy->id + SCREEN_LEFT;
-					enemy->y = 12;
-				}
+				enemy->x = 10 + SCREEN_LEFT;
+				enemy->y = 10;
 				gameStatus->score += SCORE_ENEMY;
 			}
 		}
@@ -324,14 +318,8 @@ void updateEnemy(Player* player, Enemy* enemy, wchar_t* level, wchar_t* pathMap,
 				player->alive = false;
 			}
 			else {
-				if (enemy->id == 0) {
-					enemy->x = 10 + SCREEN_LEFT;
-					enemy->y = 10;
-				}
-				else {
-					enemy->x = 8 + enemy->id + SCREEN_LEFT;
-					enemy->y = 12;
-				}
+				enemy->x = 10 + SCREEN_LEFT;
+				enemy->y = 10;
 				gameStatus->score += SCORE_ENEMY;
 			}
 		}
